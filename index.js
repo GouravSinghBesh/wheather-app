@@ -28,7 +28,7 @@ function switchTab(newTab){
         }
         else{
             searchForm.classList.remove("active");
-            userInfoContainer.remove("active");
+            userInfoContainer.classList.remove("active");
             getfromSessionStorage();
         }
     } 
@@ -46,6 +46,7 @@ function getfromSessionStorage(){
     let localCoordinates = sessionStorage.getItem("user-coordinates");
     if(localCoordinates){
         const coordinates = JSON.parse(localCoordinates);
+        // console.log(typeof(coordinates));
         fetchUserWeatherInfo(coordinates);
     }
     else{
@@ -62,27 +63,28 @@ async function fetchUserWeatherInfo(coordinates){
     try{
         let response = await fetch( `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
         let data = await response.json();
+        console.log(data);
         loadingScreen.classList.remove("active");
         userInfoContainer.classList.add("active");
         renderWeatherInfo(data);
     }
     catch(e){
         //hw
-        loadingScreen.classList.remove("active");
+        // loadingScreen.classList.remove("active");
     }
 }
 
 function renderWeatherInfo(weatherInfo){
      //fistly, we have to fetch the elements 
 
-     const cityName = document.querySelector("[data-cityName]");
-     const countryIcon = document.querySelector("[data-countryIcon]");
-     const desc = document.querySelector("[data-weatherDesc]");
-     const weatherIcon = document.querySelector("[data-weatherIcon]");
-     const temp = document.querySelector("[data-temp]");
-     const windspeed = document.querySelector("[data-windspeed]");
-     const humidity = document.querySelector("[data-humidity]");
-     const cloudiness = document.querySelector("[data-cloudiness]");
+     let cityName = document.querySelector("[data-cityName]");
+     let countryIcon = document.querySelector("[data-countryIcon]");
+     let desc = document.querySelector("[data-weatherDesc]");
+     let weatherIcon = document.querySelector("[data-weatherIcon]");
+     let temp = document.querySelector("[data-temp]");
+     let windspeed = document.querySelector("[data-windspeed]");
+     let humidity = document.querySelector("[data-humidity]");
+     let cloudiness = document.querySelector("[data-cloudiness]");
 
       //fetch values from weatherINfo object and put it UI elements
     cityName.innerText = weatherInfo?.name;
